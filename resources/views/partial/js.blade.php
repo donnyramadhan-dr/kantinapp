@@ -14,3 +14,13 @@
   <!-- Page level custom scripts -->
   <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
   <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+
+  <!-- Page Level plugins -->
+  <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+  <!-- Page level Demo customs -->
+  <script src="{{ asset('js/demo/datatables-demo.js')}}"></script>
+
+  <!-- custom JS -->
+  <script src="{{ asset('js/Cashier.js')}}"></script>
