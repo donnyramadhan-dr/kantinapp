@@ -1,29 +1,47 @@
 <!-- Sidebar -->
-<ul class="navbar-nav sidebar sidebar-dark accordion toggled" style="background-color: #14e3dc;" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion toggled" style="background-color: #defcff;" id="accordionSidebar">
 
+@if(auth()->user()->role == 'kasir')
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboardadmin') }}">
-  <div class="sidebar-brand-icon rotate-n-15">
-    <img src="{{ asset('img/') }}" >
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboardkasir') }}">
+  <div class="sidebar-brand-icon ">
+    <img style="width: 50px;" src="{{ asset('img/icon_kasir.png') }}" >
   </div>
   <div class="sidebar-brand-text mx-3">Layson</div>
 </a>
-
+@else
+<!-- Sidebar - Brand -->
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboardadmin') }}">
+  <div class="sidebar-brand-icon ">
+    <img style="width: 45px;" src="{{ asset('img/layson.jpg') }}" >
+  </div>
+  <div class="sidebar-brand-text mx-3">Layson</div>
+</a>
+@endif
 <!-- Divider -->
 <hr class="sidebar-divider my-0">
 
+@if(auth()->user()->role == 'kasir')
+<!-- Nav Item - Dashboard -->
+<li class="nav-item active">
+  <a class="nav-link" href="{{ route('dashboardkasir') }}">
+    <i class="fas fa-fw fa-tachometer-alt" style="color: black;"></i>
+    <span style="color: black;">Dashboard</span></a>
+</li>
+@else
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
   <a class="nav-link" href="{{ route('dashboardadmin') }}">
     <i class="fas fa-fw fa-tachometer-alt" style="color: black;"></i>
-    <span>Dashboard</span></a>
+    <span style="color: black;">Dashboard</span></a>
 </li>
+@endif
 
 <!-- Divider -->
 <hr class="sidebar-divider">
 
 <!-- Heading -->
-<div class="sidebar-heading">
+<div class="sidebar-heading text-gray-500">
   Menu Action
 </div>
 
@@ -31,10 +49,17 @@
 @if(auth()->user()->role == "kasir")
 <li class="nav-item">
   <a class="nav-link " href="{{ route('orderview') }}">
-    <i class="fas fa-fw fa-clipboard" style="color: black;"></i>
-    <span>Orders</span>
+    <i class="fas fa-fs fa-clipboard" style="color: black;"></i>
+    <span style="color: black;">Orders</span>
   </a> 
 </li>
+
+<!-- Nav Item - Charts -->
+<li class="nav-item">
+        <a class="nav-link" href="{{ route('invoiceview')}}">
+            <i class="fas fa-fw fa-file-invoice" style="color: black;"></i>
+            <span class="text-gray-900">History</span></a>
+    </li>
 @else
 
 <!-- Nav Item - Pages Collapse Menu -->

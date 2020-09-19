@@ -50,6 +50,9 @@ Route::group(['middleware' => 'CheckRole:kasir'],function(){
     //Route owner
     Route::get('/dashboardkasir','KasirController@dashboarkasir')->name('dashboardkasir');
     Route::get('/order', 'KasirController@orderview')->name('orderview');
+    Route::get('/invoicemenu', 'KasirController@transaction')->name('invoiceview');
     //Crud Table menu
     Route::post('/cashier','KasirController@store');
+    //PDF
+    Route::get('/foods/pdf', 'KasirController@pdf')->name('invoicepdf');
 });

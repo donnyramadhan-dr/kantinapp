@@ -1,23 +1,8 @@
 $(document).ready(function () {
-    $('#editfood').on('show.bs.modal', function (event) {
-        var foodname = $(event.relatedTarget).data('foodname');
-        var type = $(event.relatedTarget).data('type');
-        var description = $(event.relatedTarget).data('description');
-        var price = $(event.relatedTarget).data('price');
-        var image = $(event.relatedTarget).data('image');
-        var id = $(event.relatedTarget).data('id');
-
-        $(this).find("#editform").attr("action", `/food/${id}`)
-        $(this).find("#inputname").val(foodname)
-        $(this).find("#inputtype").val(type)
-        $(this).find("#inputdescription").val(description)
-        $(this).find("#inputprice").val(price)
-    });
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-
     });
 
     let currentOrder = []
@@ -29,39 +14,56 @@ $(document).ready(function () {
         let price = $(this).data('price');
         let image = $(this).data('image');
         console.log("adding to order")
+        for (let i = 0; i < currentOrder.length; i++) {
+            if (currentOrder[i]["id"] == id) {
+                currentOrder[i]["qty"] += 1
+                totalprice += price
+                loopOrder();
+                return
+            }
+            
+        }
         addToCurrentOrder(foodname, id, price, image)
     })
 
-    function addToCurrentOrder(foodname, id, price, image) {
-        totalprice += price
-        currentOrder.push({
-            'id': id,
-            'qty': 1,
-            'price': price
-        })
+        function loopOrder(){
+            $('#current-order').html("")
+            for (let i = 0;i < currentOrder.length; i++){
         let component = `
         <div class="row px-2 current-order mb-2">
-        <img style="border-radius: 15px !important; width: 60px !important;" class="rounded col-2 p-0" src="img/${image}" alt="...">
-        <p class="col-3 mb-0 text-wrap font-weight-bold text-dark">${foodname}</p>
+        <img style="border-radius: 15px !important; width: 60px !important;" class="rounded col-2 p-0" src="img/${currentOrder[i]['image']}" alt="...">
+        <p class="col-3 mb-0 text-wrap font-weight-bold text-dark">${currentOrder[i]['foodname']}</p>
         <div class="input-group col-4 ">
             <span class="input-group-btn">
                 <button type="button" class="btn btn-number" data-type="minus" data-field="quant[2]">
                     <i class="fas fa-minus"></i>
                 </button>
             </span>
-            <input type="text" name="quant[2]" class="form-control input-number" value="1" min="1" max="100">
+            <input type="text" name="quant[2]" class="form-control input-number" value="${currentOrder[i]['qty']}" min="1" max="100">
             <span class="input-group-btn">
                 <button type="button" class="btn  btn-number" data-type="plus" data-field="quant[2]">
                     <i class="fas fa-plus"></i>
                 </button>
             </span>
         </div>
-        <p class="col-3">Rp ${price}</p>
+        <p class="col-3">Rp ${currentOrder[i]['price']}</p>
         </div>
         `
 
         $('#current-order').append(component)
+        }
+    }
 
+    function addToCurrentOrder(foodname, id, price, image) {
+        totalprice += price
+        currentOrder.push({
+            'id' : id,
+            'qty' : 1,
+            'foodname' : foodname,
+            'image' : image,
+            'price' : price
+        })
+        loopOrder();
     }
 
     $("#pay").on('click', function () {
@@ -83,5 +85,4 @@ $(document).ready(function () {
             }
         });
     })
-
 });
